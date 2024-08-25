@@ -40,7 +40,7 @@ class NaverLoginService
   end
 
   def self.input_credentials(driver, naver_id, naver_pw)
-    wait = Selenium::WebDriver::Wait.new(timeout: 10)
+    wait = Selenium::WebDriver::Wait.new(timeout: 60)
 
     wait.until { driver.find_element(name: 'id') }.tap do |id_input|
       driver.execute_script("arguments[0].value = '#{naver_id}'", id_input)
@@ -52,7 +52,7 @@ class NaverLoginService
   end
 
   def self.authenticate(driver)
-    wait = Selenium::WebDriver::Wait.new(timeout: 10)
+    wait = Selenium::WebDriver::Wait.new(timeout: 60)
     wait.until { driver.find_element(css: 'button#log\\.login') }.click
     sleep(2)
   end
@@ -61,7 +61,7 @@ class NaverLoginService
     req_url = build_oauth_request_url(naver_client_id, naver_redirect_uri, state)
     driver.get(req_url)
 
-    wait = Selenium::WebDriver::Wait.new(timeout: 10)
+    wait = Selenium::WebDriver::Wait.new(timeout: 60)
     wait.until { driver.current_url.include?('code=') }
 
     extract_code_from_url(driver.current_url)
