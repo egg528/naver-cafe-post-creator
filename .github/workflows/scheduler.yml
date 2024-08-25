@@ -3,6 +3,7 @@ name: Naver Cafe Post Create Scheduler
 on:
   schedule:
     - cron: '50 2 * * *'
+  workflow_dispatch:
 
 jobs:
   run-rake-task:
