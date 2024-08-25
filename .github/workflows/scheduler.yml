@@ -1,0 +1,35 @@
+name: Naver Cafe Post Create Scheduler
+
+on:
+  schedule:
+    - cron: '50 2 * * *'
+
+jobs:
+  run-rake-task:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3.4'
+
+      - name: Install dependencies
+        run: |
+          gem install bundler
+          bundle install
+
+      - name: Run Rake task
+        env:
+          NAVER_ID: ${{ secrets.NAVER_ID }}
+          NAVER_PW: ${{ secrets.NAVER_PW }}
+          NAVER_CLIENT_ID: ${{ secrets.NAVER_CLIENT_ID }}
+          NAVER_CLIENT_SECRET: ${{ secrets.NAVER_CLIENT_SECRET }}
+          NAVER_REDIRECT: ${{ secrets.NAVER_REDIRECT }}
+          NAVER_CAFE_ID: ${{ secrets.NAVER_CAFE_ID }}
+          NAVER_CAFE_MENU_ID: ${{ secrets.NAVER_CAFE_MENU_ID }}
+        run: |
+          bundle exec rake naver_cafe_post_creator
